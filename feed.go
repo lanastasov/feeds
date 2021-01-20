@@ -52,6 +52,15 @@ type Feed struct {
 	Image       *Image
 }
 
+type RssItem2 struct {
+	Title       string
+	Source      string
+	SourceURL   string
+	Link        string
+	PublishDate time.Time
+	Description string
+}
+
 // add a new Item to a Feed
 func (f *Feed) Add(item *Item) {
 	f.Items = append(f.Items, item)

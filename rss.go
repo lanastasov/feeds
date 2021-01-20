@@ -66,17 +66,12 @@ type RssFeed struct {
 
 type RssItem struct {
 	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`       // required
-	Link        string   `xml:"link"`        // required
+	Title       string   `xml:"title"` // required
+	Source      string   `xml:"source"`
+	SourceURL   string   `xml:"sourceUrl"`
+	Link        string   `xml:"link"` // required
+	PublishDate string   `xml:"pubDate,omitempty"`
 	Description string   `xml:"description"` // required
-	Content     *RssContent
-	Author      string `xml:"author,omitempty"`
-	Category    string `xml:"category,omitempty"`
-	Comments    string `xml:"comments,omitempty"`
-	Enclosure   *RssEnclosure
-	Guid        string `xml:"guid,omitempty"`    // Id used
-	PubDate     string `xml:"pubDate,omitempty"` // created or updated
-	Source      string `xml:"source,omitempty"`
 }
 
 type RssEnclosure struct {
@@ -97,24 +92,24 @@ func newRssItem(i *Item) *RssItem {
 		Title:       i.Title,
 		Link:        i.Link.Href,
 		Description: i.Description,
-		Guid:        i.Id,
-		PubDate:     anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
+		// Guid:        i.Id,
+		PublishDate: anyTimeFormat(time.RFC1123Z, i.Created, i.Updated),
 	}
-	if len(i.Content) > 0 {
-		item.Content = &RssContent{Content: i.Content}
-	}
+	// if len(i.Content) > 0 {
+	// 	item.Content = &RssContent{Content: i.Content}
+	// }
 	if i.Source != nil {
 		item.Source = i.Source.Href
 	}
 
 	// Define a closure
-	if i.Enclosure != nil && i.Enclosure.Type != "" && i.Enclosure.Length != "" {
-		item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
-	}
+	// if i.Enclosure != nil && i.Enclosure.Type != "" && i.Enclosure.Length != "" {
+	// 	item.Enclosure = &RssEnclosure{Url: i.Enclosure.Url, Type: i.Enclosure.Type, Length: i.Enclosure.Length}
+	// }
 
-	if i.Author != nil {
-		item.Author = i.Author.Name
-	}
+	// if i.Author != nil {
+	// 	item.Author = i.Author.Name
+	// }
 	return item
 }
 
